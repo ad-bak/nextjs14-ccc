@@ -3,6 +3,7 @@
 import { Avatar, Button, NavbarItem, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { useSession } from "next-auth/react";
+import { revalidatePath } from "next/cache";
 
 export default function HeaderAuth() {
   const session = useSession();
@@ -18,7 +19,12 @@ export default function HeaderAuth() {
         </PopoverTrigger>
         <PopoverContent>
           <div className="p-4">
-            <form action={actions.signOut}>
+            <form
+              action={() => {
+                actions.signOut();
+                window.location.reload();
+              }}
+            >
               <Button type="submit" color="secondary" variant="bordered">
                 Sign Out
               </Button>
