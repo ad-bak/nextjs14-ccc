@@ -12,17 +12,10 @@ interface CommentCreateFormProps {
   startOpen?: boolean;
 }
 
-export default function CommentCreateForm({
-  postId,
-  parentId,
-  startOpen,
-}: CommentCreateFormProps) {
+export default function CommentCreateForm({ postId, parentId, startOpen }: CommentCreateFormProps) {
   const [open, setOpen] = useState(startOpen);
   const ref = useRef<HTMLFormElement | null>(null);
-  const [formState, action] = useFormState(
-    actions.createComment.bind(null, { postId, parentId }),
-    { errors: {} }
-  );
+  const [formState, action] = useFormState(actions.createComment.bind(null, { postId, parentId }), { errors: {} });
 
   useEffect(() => {
     if (formState.success) {
@@ -46,9 +39,7 @@ export default function CommentCreateForm({
         />
 
         {formState.errors._form ? (
-          <div className="p-2 bg-red-200 border rounded border-red-400">
-            {formState.errors._form?.join(", ")}
-          </div>
+          <div className="p-2 bg-red-200 border rounded border-red-400">{formState.errors._form?.join(", ")}</div>
         ) : null}
 
         <FormButton>Create Comment</FormButton>
@@ -57,8 +48,8 @@ export default function CommentCreateForm({
   );
 
   return (
-    <div>
-      <Button size="sm" variant="light" onClick={() => setOpen(!open)}>
+    <div className="">
+      <Button size="sm" variant="flat" onClick={() => setOpen(!open)} className="m-2">
         Reply
       </Button>
       {open && form}
